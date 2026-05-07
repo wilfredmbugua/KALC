@@ -1,0 +1,43 @@
+/*
+**    KALC POS  - Open Source Point of Sale
+**
+**    Copyright (c) 2015-2023 KALC Corporation   
+**
+**    http://kalcapps.com/enterprise
+**   
+**    (at your option) any later version.
+**
+**    KALC POS is distributed under proprietary license.
+**    but WITHOUT ANY WARRANTY; without even the implied warranty of
+**    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**
+**
+*/
+
+
+package ke.kalc.pos.forms;
+
+import java.awt.Color;
+import java.awt.Insets;
+import javax.swing.JLabel;
+import javax.swing.border.MatteBorder;
+
+public class MenuTitleDefinition implements MenuElement {
+    
+    /**
+     *
+     */
+    public String KeyText;
+    
+    /**
+     *
+     * @param menu
+     */
+    @Override
+    public void addComponent(JPanelMenu menu) {
+        JLabel lbl = new JLabel(AppLocal.getIntString(KeyText));
+        lbl.applyComponentOrientation(menu.getComponentOrientation());
+        lbl.setBorder(new MatteBorder(new Insets(0, 0, 1, 0), new Color(0, 0, 0)));
+        menu.addTitle(lbl);
+    }  
+}

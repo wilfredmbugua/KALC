@@ -1,0 +1,102 @@
+/*
+**    KALC POS  - Open Source Point of Sale
+**
+**    Copyright (c) 2015-2023 KALC Corporation   
+**
+**    http://kalcapps.com/enterprise
+**   
+**    (at your option) any later version.
+**
+**    KALC POS is distributed under proprietary license.
+**    but WITHOUT ANY WARRANTY; without even the implied warranty of
+**    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**
+**
+ */
+package ke.kalc.commons.dbmanager;
+
+import java.awt.Dimension;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import ke.kalc.commons.dialogs.JAlertPane;
+import ke.kalc.commons.utils.TerminalInfo;
+import ke.kalc.data.loader.ConnectionFactory;
+import ke.kalc.pos.forms.AppConfig;
+import ke.kalc.pos.forms.AppLocal;
+
+/**
+ *
+ *
+ */
+public class DbUtils {
+
+    private static final Connection connection = ConnectionFactory.getInstance().getConnection();
+    private static int rowCount = 0;
+
+    public static String getTerminalName() {
+        String terminal = TerminalInfo.getTerminalName();
+        if (terminal.equalsIgnoreCase("Unknown")) {
+            JAlertPane.messageBox(new Dimension(450, 250), JAlertPane.INFORMATION, AppLocal.getIntString("alert.noTerminalName"), 16,
+                    new Dimension(125, 50), JAlertPane.OK_OPTION);
+            System.exit(0);
+        } else {
+            try {
+                PreparedStatement pstmt = connection.prepareStatement("select count(*) from terminals where terminal_key = ? ");
+                pstmt.setString(1, TerminalInfo.getTerminalID());
+                ResultSet rsTables = pstmt.executeQuery();
+                if (rsTables.next()) {
+                    if (rsTables.getInt(1) == 0) {
+                        pstmt = connection.prepareStatement("insert into terminals (id, terminal_name, terminal_key, terminal_location) values (?, ?, ?, ?)");
+                        pstmt.setString(1, TerminalInfo.getTerminalName());
+                        pstmt.setString(2, TerminalInfo.getTerminalName());
+                        pstmt.setString(3, TerminalInfo.getTerminalID());
+                        pstmt.setString(4, TerminalInfo.getLocation());
+                        pstmt.executeUpdate();
+                    } else {
+                        pstmt = connection.prepareStatement("update terminals set id = ?, terminal_name = ?, terminal_location = ? where  terminal_key = ?");
+                        pstmt.setString(1, TerminalInfo.getTerminalName());
+                        pstmt.setString(2, TerminalInfo.getTerminalName());
+                        pstmt.setString(3, TerminalInfo.getLocation());
+                        pstmt.setString(4, TerminalInfo.getTerminalID());
+                        pstmt.executeUpdate();
+                    }
+                }
+            } catch (SQLException ex) {
+
+            }
+            AppConfig.put("terminalID", TerminalInfo.getTerminalName());
+        }
+        return AppConfig.getString("terminalID");
+    }
+
+    public static Integer getTriggerCount() {
+        try {
+            String sql = "select count(*) from INFORMATION_SCHEMA.TRIGGERS where trigger_schema = DATABASE() AND trigger_name NOT IN ('giftcard_insert','gift_trans_insert','loyalty_insert','loyalty_trans_insert' )";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                rowCount = rs.getInt(1);
+            }
+            return rowCount;
+        } catch (SQLException ex) {
+        }
+        return 0;
+    }
+
+    public static Integer getViewCount() {
+        try {
+            String sql = "select count(*) from INFORMATION_SCHEMA.VIEWS where TABLE_SCHEMA = DATABASE()  and TABLE_NAME = 'recipes'";
+            Statement stmt = connection.createStatement();
+            ResultSet rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                rowCount = rs.getInt(1);
+            }
+            return rowCount;
+        } catch (SQLException ex) {
+        }
+        return 0;
+    }
+}

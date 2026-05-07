@@ -1,0 +1,134 @@
+/*
+**    KALC POS  - Open Source Point of Sale
+**
+**    Copyright (c) 2015-2023 KALC Corporation   
+**
+**    http://kalcapps.com/enterprise
+**   
+**    (at your option) any later version.
+**
+**    KALC POS is distributed under proprietary license.
+**    but WITHOUT ANY WARRANTY; without even the implied warranty of
+**    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**
+**
+*/
+
+
+package ke.kalc.data.user;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
+
+public class DirtyManager implements DocumentListener, ChangeListener, ActionListener, PropertyChangeListener {
+
+    private boolean m_bDirty;
+    private boolean m_dataValidated;
+
+    /**
+     *
+     */
+    //  protected Vector listeners = new Vector();
+    protected ArrayList listeners = new ArrayList();
+    private List synchList = Collections.synchronizedList(listeners);
+
+    /**
+     * Creates a new instance of DirtyManager
+     */
+    public DirtyManager() {
+        m_bDirty = false;
+        m_dataValidated = false;
+    }
+
+    /**
+     *
+     * @param l
+     */
+    public void addDirtyListener(DirtyListener l) {
+        listeners.add(l);
+    }
+
+    /**
+     *
+     * @param l
+     */
+    public void removeDirtyListener(DirtyListener l) {
+        listeners.remove(l);
+    }
+
+    /**
+     *
+     */
+    protected void fireChangedDirty() {
+        int j = 0;
+        while (synchList.size() > j) {
+            DirtyListener l = (DirtyListener) synchList.get(j);
+            l.changedDirty(m_bDirty);
+            j++;
+        }
+    }
+
+    /**
+     *
+     * @param bValue
+     */
+    public void setDirty(boolean bValue) {
+        if (m_bDirty != bValue) {
+            m_bDirty = bValue;
+            fireChangedDirty();
+        }
+    }
+
+    
+    public boolean isValidated(){
+        return m_dataValidated;
+    }
+    
+    public void setValidated(boolean dataValidated){
+        m_dataValidated = dataValidated;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public boolean isDirty() {
+        return m_bDirty;
+    }
+
+    public void changedUpdate(DocumentEvent e) {
+        setDirty(true);
+    }
+
+    public void insertUpdate(DocumentEvent e) {
+        setDirty(true);
+    }
+
+    public void removeUpdate(DocumentEvent e) {
+        setDirty(true);
+    }
+
+    public void stateChanged(ChangeEvent e) {
+        setDirty(true);
+    }
+
+    public void actionPerformed(ActionEvent e) {
+        setDirty(true);
+    }
+
+    public void propertyChange(PropertyChangeEvent evt) {
+        //   if ("image".equals(evt.getPropertyName())) {
+        setDirty(true);
+        // }
+    }
+
+}

@@ -1,0 +1,45 @@
+/*
+**    KALC POS  - Open Source Point of Sale
+**
+**    Copyright (c) 2015-2023 KALC Corporation   
+**
+**    http://kalcapps.com/enterprise
+**   
+**    (at your option) any later version.
+**
+**    KALC POS is distributed under proprietary license.
+**    but WITHOUT ANY WARRANTY; without even the implied warranty of
+**    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+**
+**
+*/
+
+
+package ke.kalc.data.loader;
+
+import ke.kalc.basic.BasicException;
+
+
+public class SerializerReadBuilder  implements SerializerRead {
+    
+    private SerializableBuilder m_sb;
+    
+    /** Creates a new instance of SerializerReadBuilder
+     * @param sb */
+    public SerializerReadBuilder(SerializableBuilder sb) {
+        m_sb = sb;
+    }
+    
+    /**
+     *
+     * @param dr
+     * @return
+     * @throws BasicException
+     */
+    public Object readValues(DataRead dr) throws BasicException {
+        SerializableRead sr = m_sb.createNew();
+        sr.readValues(dr);
+        return sr;
+    }
+    
+}
