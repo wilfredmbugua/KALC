@@ -1,24 +1,16 @@
 /*
 **    KALC POS  - Open Source Point of Sale
 **
-**    This file is part of KALC POS Version KALC V1.5.4
+**    Copyright (c) 2015-2023 KALC Corporation   
 **
-**    Copyright (c) 2015-2023 KALC & previous Openbravo POS related works   
-**
-**    https://www.kalc.co.uk
+**    http://kalcapps.com/enterprise
 **   
-**    KALC POS is free software: you can redistribute it and/or modify
-**    it under the terms of the GNU General Public License as published by
-**    the Free Software Foundation, either version 3 of the License, or
 **    (at your option) any later version.
 **
-**    KALC POS is distributed in the hope that it will be useful,
+**    KALC POS is distributed under proprietary license.
 **    but WITHOUT ANY WARRANTY; without even the implied warranty of
 **    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-**    GNU General Public License for more details.
 **
-**    You should have received a copy of the GNU General Public License
-**    along with KALC POS.  If not, see <http://www.gnu.org/licenses/>
 **
  */
 package uk.kalc.pos.forms;
@@ -179,15 +171,14 @@ public class JRootApp extends JPanel implements AppView {
 
      //   logoLabel.setIcon(scaleImage(SystemProperty.STARTLOGO, 1024, 350));
 
-        chromisText.setText("<html><center><b>KALC POS - Free Open Source POS Solution</b><br>"
-                + "Copyright \u00A9 2015 - 2023 KALC <br>"
-                + "http://www.kalc.co.uk<br>"
+         chromisText.setText("<html><center><b>KALC POS - Enterprise Point of Sale</b><br>"
+                + "Copyright \u00A9 2015 - 2023 KALC Corporation<br>"
+                + "https://kalcapps.com/enterprise<br>"
                 + "<br>"
-                + "KALC POS is Open Source Software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>"
+                + "KALC POS is proprietary software.<br>"
+                + "Unauthorized copying or distribution is strictly prohibited.<br>"
                 + "<br>"
-                + "KALC POS is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.<br>"
-                + "<br>"
-                + "You should have received a copy of the GNU General Public License along with KALC POS.  If not, see http://www.gnu.org/licenses/<br>"
+                + "For commercial licensing, contact: email<br>"
                 + "</center>");
         chromisText.setPreferredSize(new java.awt.Dimension(800, 300));
         chromisText.setFont(KALCFonts.DEFAULTFONT.deriveFont(14f));
@@ -759,11 +750,9 @@ public class JRootApp extends JPanel implements AppView {
             "Copyright \u00A9 2015 - 2023 KALC <br>" +
             "http://www.kalc.co.uk<br>" +
             "<br>" +
-            "KALC POS is Open Source Software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.<br>" +
+            "KALC POS is proprietary software.<br>" +
             "<br>" +
-            "KALC POS is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.<br>" +
             "<br>" +
-            "You should have received a copy of the GNU General Public License along with KALC POS.  If not, see http://www.gnu.org/licenses/<br>" +
             "</center>");
         jLabel1.setAlignmentX(0.5F);
         jLabel1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
